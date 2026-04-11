@@ -4,10 +4,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
 import QuestionCard from "@/components/QuestionCard";
 import BriefingTab from "@/components/BriefingTab";
+import ResearchTab from "@/components/ResearchTab";
 import FileUpload from "@/components/FileUpload";
 import BottomBar from "@/components/BottomBar";
 import Toast from "@/components/Toast";
-import { BRIEFING_TAB_ID } from "@/components/CategoryTabs";
+import { BRIEFING_TAB_ID, RESEARCH_TAB_ID } from "@/components/CategoryTabs";
 import {
   categories,
   totalQuestions,
@@ -33,10 +34,16 @@ function countAnswered(answers: Answers): number {
   }).length;
 }
 
-const allTabIds = [BRIEFING_TAB_ID, ...categories.map((c) => c.id), "_files"];
+const allTabIds = [
+  BRIEFING_TAB_ID,
+  RESEARCH_TAB_ID,
+  ...categories.map((c) => c.id),
+  "_files",
+];
 
 function tabIdToHash(id: string): string {
   if (id === BRIEFING_TAB_ID) return "#briefing";
+  if (id === RESEARCH_TAB_ID) return "#research";
   if (id === "_files") return "#files";
   return `#${id}`;
 }
@@ -45,6 +52,7 @@ function hashToTabId(hash: string): string | null {
   if (!hash) return null;
   const h = hash.replace("#", "");
   if (h === "briefing") return BRIEFING_TAB_ID;
+  if (h === "research") return RESEARCH_TAB_ID;
   if (h === "files") return "_files";
   if (allTabIds.includes(h)) return h;
   return null;
@@ -65,6 +73,7 @@ export default function Home() {
   const mainRef = useRef<HTMLDivElement>(null);
 
   const isBriefing = activeCategory === BRIEFING_TAB_ID;
+  const isResearch = activeCategory === RESEARCH_TAB_ID;
   const isFiles = activeCategory === "_files";
 
   useEffect(() => {
@@ -193,6 +202,22 @@ export default function Home() {
               사업 브리핑
             </h2>
             <BriefingTab />
+          </>
+        ) : isResearch ? (
+          <>
+            <h2
+              style={{
+                fontSize: "clamp(24px, 3.5vw, 32px)",
+                fontWeight: 800,
+                lineHeight: 1.15,
+                letterSpacing: "-1px",
+                color: "var(--text-primary)",
+                marginBottom: "var(--space-8)",
+              }}
+            >
+              리서치 결과
+            </h2>
+            <ResearchTab />
           </>
         ) : isFiles ? (
           <>

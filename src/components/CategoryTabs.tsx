@@ -3,6 +3,7 @@
 import { categories } from "@/lib/questions";
 
 export const BRIEFING_TAB_ID = "_briefing";
+export const RESEARCH_TAB_ID = "_research";
 export const FILES_TAB_ID = "_files";
 
 interface CategoryTabsProps {
@@ -17,6 +18,7 @@ export default function CategoryTabs({
   getCategoryProgress,
 }: CategoryTabsProps) {
   const isBriefingActive = activeCategory === BRIEFING_TAB_ID;
+  const isResearchActive = activeCategory === RESEARCH_TAB_ID;
 
   return (
     <div className="scrollbar-hide flex gap-[var(--space-1)] overflow-x-auto">
@@ -34,7 +36,24 @@ export default function CategoryTabs({
           color: isBriefingActive ? "#ffffff" : "var(--text-secondary)",
         }}
       >
-        미팅 브리핑
+        사업 브리핑
+      </button>
+
+      {/* Research tab */}
+      <button
+        onClick={() => onCategoryChange(RESEARCH_TAB_ID)}
+        className="shrink-0 flex items-center gap-[var(--space-2)] transition-all duration-150 ease-out active:scale-[0.97]"
+        style={{
+          borderRadius: "var(--radius-pill)",
+          padding: "8px 16px",
+          fontSize: "13px",
+          fontWeight: 600,
+          lineHeight: 1,
+          background: isResearchActive ? "var(--accent)" : "var(--bg-surface)",
+          color: isResearchActive ? "#ffffff" : "var(--text-secondary)",
+        }}
+      >
+        📊 리서치
       </button>
 
       {/* Category tabs */}
