@@ -9,25 +9,32 @@ interface ToastProps {
 }
 
 export default function Toast({ message, visible, onHide }: ToastProps) {
-  const [show, setShow] = useState(false);
+  const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {
-    if (visible) {
-      setShow(true);
-      const timer = setTimeout(() => {
-        setShow(false);
-        setTimeout(onHide, 200);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [visible, onHide]);
+    if (!visible) return;
 
-  if (!visible && !show) return null;
+    const fadeTimer = setTimeout(() => {
+      setIsFadingOut(true);
+    }, 2000);
+
+    const hideTimer = setTimeout(() => {
+      setIsFadingOut(false);
+      onHide();
+    }, 2200);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(hideTimer);
+    };
+  }, [visible, onHide, message]);
+
+  if (!visible) return null;
 
   return (
     <div className="fixed top-[var(--space-5)] left-1/2 z-50 -translate-x-1/2">
       <div
-        className={show ? "animate-toast-in" : "animate-toast-out"}
+        className={isFadingOut ? "animate-toast-out" : "animate-toast-in"}
         style={{
           background: "var(--accent)",
           color: "#ffffff",
