@@ -348,6 +348,7 @@ export default function ResearchTopicArticle({ topic }: { topic: ResearchTopic }
         </section>
       ))}
 
+      {topic.sources.length > 0 && (
       <section className="flex flex-col gap-[var(--space-4)]">
         <div>
           <h2
@@ -402,6 +403,7 @@ export default function ResearchTopicArticle({ topic }: { topic: ResearchTopic }
           </div>
         </article>
       </section>
+      )}
 
       <section className="flex flex-col gap-[var(--space-4)] border-t border-[rgba(0,0,0,0.06)] pt-[var(--space-6)]">
         <div>
