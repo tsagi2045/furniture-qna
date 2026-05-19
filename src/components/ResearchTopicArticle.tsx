@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { researchTopics, type ResearchTopic } from "@/lib/interior-trend-research";
 
@@ -205,6 +206,60 @@ export default function ResearchTopicArticle({ topic }: { topic: ResearchTopic }
                 >
                   {paragraph}
                 </p>
+              ))}
+            </div>
+          )}
+
+          {section.images && section.images.length > 0 && (
+            <div
+              className={
+                section.images.length === 1
+                  ? "grid gap-[var(--space-4)]"
+                  : "grid gap-[var(--space-4)] md:grid-cols-2"
+              }
+            >
+              {section.images.map((image) => (
+                <figure
+                  key={image.src}
+                  style={{
+                    margin: 0,
+                    background: "var(--bg-primary)",
+                    borderRadius: "var(--radius-xl)",
+                    border: "1px solid rgba(0,0,0,0.05)",
+                    boxShadow: "var(--shadow-card)",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "relative",
+                      width: "100%",
+                      aspectRatio: `${image.width} / ${image.height}`,
+                      background: "rgba(0,0,0,0.04)",
+                    }}
+                  >
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      fill
+                      sizes="(min-width: 768px) 480px, 100vw"
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                  {image.caption && (
+                    <figcaption
+                      style={{
+                        fontSize: "12px",
+                        lineHeight: 1.7,
+                        color: "var(--text-tertiary)",
+                        padding: "var(--space-3) var(--space-4)",
+                        borderTop: "1px solid rgba(0,0,0,0.05)",
+                      }}
+                    >
+                      {image.caption}
+                    </figcaption>
+                  )}
+                </figure>
               ))}
             </div>
           )}
